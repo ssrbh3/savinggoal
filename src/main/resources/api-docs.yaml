@@ -1,0 +1,68 @@
+openapi: 3.0.1
+info:
+  title: Savings Goal Round Up
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /round-up:
+    get:
+      tags:
+      - round-up-controller
+      description: Method used to calculate and round up spare change for a customer
+        identified by the token
+      operationId: roundUp
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "200":
+          description: Savings Goals added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoundUpResponse'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        errorMessage:
+          type: string
+    CurrencyAndAmount:
+      type: object
+      properties:
+        currency:
+          type: string
+        minorUnits:
+          type: integer
+          format: int64
+    RoundUpResponse:
+      type: object
+      properties:
+        accountUid:
+          type: string
+        savingGoalName:
+          type: string
+        saving:
+          $ref: '#/components/schemas/CurrencyAndAmount'
+        transferUid:
+          type: string

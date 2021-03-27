@@ -1,0 +1,6 @@
+starling:
+  api:
+    baseUrl: https://api-sandbox.starlingbank.com/api/v2
+    week: 7
+
+
